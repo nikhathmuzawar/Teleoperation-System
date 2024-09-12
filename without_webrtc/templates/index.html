@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Webcam Stream</title>
+    <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.8.0/dist/nipplejs.min.js"></script>
+    <style>
+        #joystick {
+            width: 200px;
+            height: 200px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            position: relative;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <h1>Sapiens Teleoperation System</h1>
+    <img src="{{ url_for('video_feed') }}" style="width: 100%;"/>
+    <div>
+    <h2>Controls</h2>
+    <button id="left">TURN LEFT</button>
+    <button id="right">TURN RIGHT </button>
+    <button id="stop">STOP</button>
+
+
+    <div id="joystick"></div>
+    </div>
+    </center>
+    <script>
+        var options = {
+            zone: document.getElementById('joystick'),
+            color: 'blue',
+        };
+
+        var joystick = nipplejs.create(options);
+
+        joystick.on('move', function (evt, data) {
+            console.log('Joystick data:', data);
+
+            fetch('/update_joystick', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    direction: data.direction,
+                    distance: data.distance,
+                    angle: data.angle
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log('Success:', data))
+            .catch((error) => console.error('Error:', error));
+        });
+
+        const left = document.getElementById('left');
+        const right = document.getElementById('right');
+        const stop = document.getElementById('stop');
+
+        left.addEventListener('click', moveleft);
+        right.addEventListener('click', moveright);
+        stop.addEventListener('click', stoprob);
+
+        function moveleft() {
+            fetch('/move_left', {
+                method: 'POST',
+            })
+            .then(response=> {
+                if(response.ok){
+                    console.log("turned left");
+                }
+                else {
+                    console.error('failed to turn left');
+                }
+            })
+            .catch(error=> console.error('error turning left',error));
+        }
+
+        function moveright() {
+            fetch('/move_right', {
+                method: 'POST',
+            })
+            .then(response=> {
+                if(response.ok){
+                    console.log("turned right");
+                }
+                else {
+                    console.error('failed to turn right');
+                }
+            })
+            .catch(error=> console.error('error turning right',error));
+        }
+
+        function stoprob() {
+            fetch('/stop_rob', {
+                method: 'POST',
+            })
+            .then(response=> {
+                if(response.ok){
+                    console.log("stopped");
+                }
+                else {
+                    console.error('failed to stop');
+                }
+            })
+            .catch(error=> console.error('error stopping',error));
+        }
+
+    </script>
+</body>
+</html>

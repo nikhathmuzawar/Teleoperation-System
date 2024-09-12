@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>teleoperation system</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.8.0/dist/nipplejs.min.js"></script>
+    <script src='index.js'></script>
+    <style>
+        #joystick {
+            width: 200px;
+            height: 200px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            position: relative;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <h1>Sapiens Teleoperation System</h1>
+    <div>
+    <button id='stream'>Start Stream</button><br><br>
+    <button id="view">View Stream</button>
+    </div>
+    <video autoplay id="video"  style="width: 50%"></video>
+    <video autoplay id='video1' style="width: 50%;"></video>
+    <div>
+        <h2>Controls</h2>
+        <button id="left">TURN LEFT</button>
+        <button id="right">TURN RIGHT </button>
+        <button id="stop">STOP</button>
+        <div id="joystick"></div>
+        </div>
+    </center>
+</body>
+</html>
