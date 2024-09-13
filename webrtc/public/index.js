@@ -1,4 +1,10 @@
-window.onload = () => {
+window.onload = async () =>  {
+    const response = await fetch('/protected');
+        if (response.status === 401) {
+            window.location.href = 'login.html'; // Redirect to login if not authenticated
+        } else {
+
+
     const streamButton = document.getElementById('stream');
     const viewButton = document.getElementById('view');
 
@@ -47,7 +53,7 @@ window.onload = () => {
     });
 
 }
-
+}
 
 async function stream_init() {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });

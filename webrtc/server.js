@@ -1,13 +1,43 @@
-const express = require('express');
+ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const webrtc = require("wrtc");
+const session = require('express-session');
 
 let senderStream;
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true
+}));
+
+const USER_DATA = {
+    username: 'user',
+    password: '123'
+};
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    if (username === USER_DATA.username && password === USER_DATA.password) {
+        req.session.user = username;
+        res.status(200).send();
+    } else {
+        res.status(401).send();
+    }
+});
+
+app.get('/protected', (req, res) => {
+    if (req.session.user) {
+        res.send('This is a protected route');
+    } else {
+        res.status(401).send('Unauthorized');
+    }
+});
 
 app.post("/consumer", async ({ body }, res) => {
     const peer = new webrtc.RTCPeerConnection({
