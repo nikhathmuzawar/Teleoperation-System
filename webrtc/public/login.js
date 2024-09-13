@@ -12,7 +12,7 @@ document.getElementById('login').addEventListener('click', async () => {
         });
 
         if (response.ok) {
-            window.location.href = 'index.html'; // Redirect to main page
+            window.location.href = 'index.html'; 
         } else {
             alert('Invalid username or password');
         }

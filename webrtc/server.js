@@ -83,9 +83,6 @@ app.post('/update_joystick', (req, res) => {
     const joystickData = req.body;
     console.log('Joystick data received:', joystickData);
 
-    // Process the joystick data as needed
-
-    // Send a response back to the client
     res.json({ status: 'success', data: joystickData });
 });
 

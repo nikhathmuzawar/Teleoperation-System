@@ -1,7 +1,7 @@
 window.onload = async () =>  {
     const response = await fetch('/protected');
         if (response.status === 401) {
-            window.location.href = 'login.html'; // Redirect to login if not authenticated
+            window.location.href = 'login.html';
         } else {
 
 
